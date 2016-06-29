@@ -7,24 +7,24 @@
   <title>基于React下Android开发Hybrid访问WebView问题 | yulimik的个人博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="description" content="最近有幸参与到React相关的项目，用React写Web页面，通过WebViewJavascript实现Hybrid的项目。iOS与Android的交互调试工作差别还是挺大的。
-##iOS本身iOS个人相对比较熟悉，所以不管从IDE还是调试都没什么问题。
-#react项目启动1npm start
-#加载webView项目跑起来之后有个地址，然后把地址放到需要加载的ViewController中的w">
+iOS本身iOS个人相对比较熟悉，所以不管从IDE还是调试都没什么问题。
+react项目启动1npm start
+加载webView项目跑起来之后有个地址，然后把地址放到需要加载的ViewController中的webVi">
 <meta property="og:type" content="article">
 <meta property="og:title" content="基于React下Android开发Hybrid访问WebView问题">
 <meta property="og:url" content="http://yulimik.com/2016/06/29/基于React下Android开发Hybrid访问WebView问题/index.html">
 <meta property="og:site_name" content="yulimik的个人博客">
 <meta property="og:description" content="最近有幸参与到React相关的项目，用React写Web页面，通过WebViewJavascript实现Hybrid的项目。iOS与Android的交互调试工作差别还是挺大的。
-##iOS本身iOS个人相对比较熟悉，所以不管从IDE还是调试都没什么问题。
-#react项目启动1npm start
-#加载webView项目跑起来之后有个地址，然后把地址放到需要加载的ViewController中的w">
-<meta property="og:updated_time" content="2016-06-29T14:55:11.000Z">
+iOS本身iOS个人相对比较熟悉，所以不管从IDE还是调试都没什么问题。
+react项目启动1npm start
+加载webView项目跑起来之后有个地址，然后把地址放到需要加载的ViewController中的webVi">
+<meta property="og:updated_time" content="2016-06-29T14:58:15.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="基于React下Android开发Hybrid访问WebView问题">
 <meta name="twitter:description" content="最近有幸参与到React相关的项目，用React写Web页面，通过WebViewJavascript实现Hybrid的项目。iOS与Android的交互调试工作差别还是挺大的。
-##iOS本身iOS个人相对比较熟悉，所以不管从IDE还是调试都没什么问题。
-#react项目启动1npm start
-#加载webView项目跑起来之后有个地址，然后把地址放到需要加载的ViewController中的w">
+iOS本身iOS个人相对比较熟悉，所以不管从IDE还是调试都没什么问题。
+react项目启动1npm start
+加载webView项目跑起来之后有个地址，然后把地址放到需要加载的ViewController中的webVi">
   
     <link rel="alternative" href="/atom.xml" title="yulimik的个人博客" type="application/atom+xml">
   
@@ -89,7 +89,7 @@
 						<li>Links</li>
 						
 						
-						<li>Über</li>
+						<li>About</li>
 						
 					</ul>
 				</div>
@@ -252,14 +252,13 @@
     <div class="article-entry" itemprop="articleBody">
       
         <p>最近有幸参与到React相关的项目，用React写Web页面，通过WebViewJavascript实现Hybrid的项目。iOS与Android的交互调试工作差别还是挺大的。</p>
-<p>##iOS<br>本身iOS个人相对比较熟悉，所以不管从IDE还是调试都没什么问题。</p>
-<p>#react项目启动<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm start</span><br></pre></td></tr></table></figure></p>
-<p>#加载webView<br>项目跑起来之后有个地址，然后把地址放到需要加载的ViewController中的webView中。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">self.webView = [[UIWebView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT)];</span><br><span class="line"></span><br><span class="line">NSURL *baseUrl = [NSURL URLWithString:@<span class="string">"http://localhost:8000/webpack-dev-server/"</span>];</span><br><span class="line"></span><br><span class="line">NSURLRequest *request = [NSURLRequest requestWithURL:baseUrl];</span><br><span class="line">[self.webView loadRequest:request];</span><br><span class="line">self.webView.delegate = self;</span><br></pre></td></tr></table></figure></p>
-<p>#解除http请求限制<br>因为本身Xcode对http有限制，所以需求修改info。添加App Transport Security Settings，在其下添加Allow Arbitrary Loads 属性改为YES</p>
-<p>#添加相关的交互<br>剩下的就是添加相关的交互代码了，调试的话还是需要Xcode和浏览器联调</p>
-<p>##Android</p>
-<p>#准备工作<br>Android个人本身接触并不多，所以不管从搭建环境，配置项目都是有些生疏的。<br>大部分和iOS相同，不再赘述。</p>
-<p>#webView加载不成功<br>提示无法加载，通过网上查找，提前需要在AndroidManifest.xml中添加如下代码。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&lt;uses-permission android:name=<span class="string">"android.permission.INTERNET"</span>&gt;&lt;/uses-permission&gt;</span><br><span class="line">&lt;uses-permission android:name=<span class="string">"android.permission.ACCESS_WIFI_STATE"</span>/&gt;</span><br></pre></td></tr></table></figure></p>
+<h2 id="iOS"><a href="#iOS" class="headerlink" title="iOS"></a>iOS</h2><p>本身iOS个人相对比较熟悉，所以不管从IDE还是调试都没什么问题。</p>
+<h1 id="react项目启动"><a href="#react项目启动" class="headerlink" title="react项目启动"></a>react项目启动</h1><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm start</span><br></pre></td></tr></table></figure>
+<h1 id="加载webView"><a href="#加载webView" class="headerlink" title="加载webView"></a>加载webView</h1><p>项目跑起来之后有个地址，然后把地址放到需要加载的ViewController中的webView中。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">self.webView = [[UIWebView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT)];</span><br><span class="line"></span><br><span class="line">NSURL *baseUrl = [NSURL URLWithString:@<span class="string">"http://localhost:8000/webpack-dev-server/"</span>];</span><br><span class="line"></span><br><span class="line">NSURLRequest *request = [NSURLRequest requestWithURL:baseUrl];</span><br><span class="line">[self.webView loadRequest:request];</span><br><span class="line">self.webView.delegate = self;</span><br></pre></td></tr></table></figure></p>
+<h1 id="解除http请求限制"><a href="#解除http请求限制" class="headerlink" title="解除http请求限制"></a>解除http请求限制</h1><p>因为本身Xcode对http有限制，所以需求修改info。添加App Transport Security Settings，在其下添加Allow Arbitrary Loads 属性改为YES</p>
+<h1 id="添加相关的交互"><a href="#添加相关的交互" class="headerlink" title="添加相关的交互"></a>添加相关的交互</h1><p>剩下的就是添加相关的交互代码了，调试的话还是需要Xcode和浏览器联调</p>
+<h2 id="Android"><a href="#Android" class="headerlink" title="Android"></a>Android</h2><h1 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a>准备工作</h1><p>Android个人本身接触并不多，所以不管从搭建环境，配置项目都是有些生疏的。<br>大部分和iOS相同，不再赘述。</p>
+<h1 id="webView加载不成功"><a href="#webView加载不成功" class="headerlink" title="webView加载不成功"></a>webView加载不成功</h1><p>提示无法加载，通过网上查找，提前需要在AndroidManifest.xml中添加如下代码。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&lt;uses-permission android:name=<span class="string">"android.permission.INTERNET"</span>&gt;&lt;/uses-permission&gt;</span><br><span class="line">&lt;uses-permission android:name=<span class="string">"android.permission.ACCESS_WIFI_STATE"</span>/&gt;</span><br></pre></td></tr></table></figure></p>
 <p>可是并没有解决问题，只是在webView中能够访问一些网站了。<br>因为Android系统把自身当作了localhost，所以不能访问，查找资料发现需要把链接修改成10.0.0.2,但是没能解决，之后改成10.0.2.2访问成功。<br>然而真机需要访问地址，可是怎么不能连接上，PC上也不能打开本地ip链接的项目。<br>最后发现需要修改react项目中的server<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">new WebpackDevServer(webpack(config), config.devServer)</span><br><span class="line">.listen(config.port, <span class="string">'你的ip'</span>, (err) =&gt; &#123;</span><br><span class="line">  <span class="keyword">if</span> (err) &#123;</span><br><span class="line">    console.log(err);</span><br><span class="line">  &#125;</span><br><span class="line">  console.log(<span class="string">'Listening at localhost:'</span> + config.port);</span><br><span class="line">  console.log(<span class="string">'Opening your system browser...'</span>);</span><br><span class="line">  open(<span class="string">'http://你的ip:'</span> + config.port + <span class="string">'/webpack-dev-server/'</span>);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure></p>
 
       
@@ -268,16 +267,6 @@
   </div>
   
     
-<nav id="article-nav">
-  
-  
-    <a href="/2016/06/27/hello-world/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">Hello World</div>
-      <strong class="article-nav-caption">></strong>
-    </a>
-  
-</nav>
-
   
 </article>
 
