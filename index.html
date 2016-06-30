@@ -79,7 +79,7 @@
 						<li>Links</li>
 						
 						
-						<li>Über</li>
+						<li>About</li>
 						
 					</ul>
 				</div>
@@ -116,7 +116,7 @@
 				
 				<section class="switch-part switch-part2">
 					<div class="widget tagcloud" id="js-tagcloud">
-						<a href="/tags/开始/" style="font-size: 10px;">开始</a>
+						<a href="/tags/Hybrid/" style="font-size: 10px;">Hybrid</a> <a href="/tags/开始/" style="font-size: 10px;">开始</a>
 					</div>
 				</section>
 				
@@ -202,6 +202,71 @@
 
       <div class="body-wrap">
   
+    <article id="post-关于WebViewJavascriptBridge与React开发Hybrid" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2016/06/30/关于WebViewJavascriptBridge与React开发Hybrid/" class="article-date">
+  	<time datetime="2016-06-30T11:03:13.000Z" itemprop="datePublished">2016-06-30</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/06/30/关于WebViewJavascriptBridge与React开发Hybrid/">关于WebViewJavascriptBridge与React开发Hybrid</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>使用react来写H5页面，并且通过WebViewJavascriptBridge来实现原生与JS的交互。</p>
+<h2 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a>准备工作</h2><p>Xcode中添加viewController添加webView,设置相关代理,初始化通信桥bridge。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">// 初始化通信桥</span><br><span class="line">- (void)initJSBridge &#123;</span><br><span class="line">    [WebViewJavascriptBridge <span class="built_in">enable</span>Logging];//Xcode打印交互的信息</span><br><span class="line">    self.bridge = [WebViewJavascriptBridge bridgeForWebView:self.webView];</span><br><span class="line">    [self.bridge <span class="built_in">set</span>WebViewDelegate:self];</span><br><span class="line">    //注册oc方法，以供js调用，这个名字JS也需调用该名字</span><br><span class="line">    [self.bridge registerHandler:@<span class="string">"你注册的OC方法"</span> handler:^(id data, WVJBResponseCallback responseCallback) &#123;</span><br><span class="line">        //从js获取数据</span><br><span class="line">        NSLog(@<span class="string">"js调用了OC方法，并且获得js来源的数据-&gt; %@"</span>,data);</span><br><span class="line">        <span class="keyword">if</span> (responseCallback) &#123;</span><br><span class="line">            //反馈给JS</span><br><span class="line">            responseCallback(@&#123;@<span class="string">"testId"</span>:@<span class="string">"111111"</span>&#125;);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>同样的在js端也是如此,需要植入一定的固定代码。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">//该段代码需要固定写入</span><br><span class="line"><span class="keyword">function</span> setupWebViewJavascriptBridge(callback) &#123;</span><br><span class="line">        <span class="keyword">if</span> (window.WebViewJavascriptBridge) &#123; <span class="built_in">return</span> callback(WebViewJavascriptBridge); &#125;</span><br><span class="line">        <span class="keyword">if</span> (window.WVJBCallbacks) &#123; <span class="built_in">return</span> window.WVJBCallbacks.push(callback); &#125;</span><br><span class="line">        window.WVJBCallbacks = [callback];</span><br><span class="line">        var WVJBIframe = document.createElement(<span class="string">'iframe'</span>);</span><br><span class="line">        WVJBIframe.style.display = <span class="string">'none'</span>;</span><br><span class="line">        WVJBIframe.src = <span class="string">'wvjbscheme://__BRIDGE_LOADED__'</span>;</span><br><span class="line">        document.documentElement.appendChild(WVJBIframe);</span><br><span class="line">        <span class="built_in">set</span>Timeout(<span class="function"><span class="title">function</span></span>() &#123; document.documentElement.removeChild(WVJBIframe) &#125;, 0)</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    setupWebViewJavascriptBridge(<span class="keyword">function</span>(bridge) &#123;</span><br><span class="line">      //所有与原生交互的代码都在这里，不然不被调用</span><br><span class="line">      //注册一个js方法，以供移动端调用</span><br><span class="line">      //同理，该js方法名需要与原生调用时的方法名相同</span><br><span class="line">      bridge.registerHandler(<span class="string">'你的js方法名'</span>, <span class="keyword">function</span>(data, responseCallback) &#123;</span><br><span class="line">      //<span class="keyword">do</span> something</span><br><span class="line">			responseCallback(responseData)//回调</span><br><span class="line">      &#125;)</span><br><span class="line"></span><br><span class="line">      //调用原生方法，可以传入json格式数据</span><br><span class="line">      bridge.callHandler(<span class="string">'需要调用的原生方法名'</span>, &#123;<span class="string">'foo'</span>: <span class="string">'bar'</span>&#125;, <span class="keyword">function</span>(response) &#123;</span><br><span class="line">        //可以回调</span><br><span class="line">      &#125;)</span><br><span class="line">    &#125;)</span><br></pre></td></tr></table></figure></p>
+<h1 id="无法实现交互"><a href="#无法实现交互" class="headerlink" title="无法实现交互"></a>无法实现交互</h1><p>发现并没有实现交互，通过调试发现setupWebViewJavascriptBridge内未执行。<br>因为项目使用webpack工具，所以地址变为webpack-dev-server,但是这会有问题，需要把末尾去掉,只留<a href="http://你的ip:8000/" target="_blank" rel="external">http://你的ip:8000/</a></p>
+<p>Android大体上相同，但是执行代码稍微有些不同,另外发现Android中载入webview还是会出现问题，比如流畅，或者元素未加载出来。</p>
+
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Hybrid/">Hybrid</a></li></ul>
+	</div>
+
+      
+	<div class="article-category tagcloud">
+	<a class="article-category-link" href="/categories/日志/">日志</a>
+	</div>
+
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
     <article id="post-基于React下Android开发Hybrid访问WebView问题" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -219,7 +284,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2016/06/29/基于React下Android开发Hybrid访问WebView问题/">基于React下Android开发Hybrid访问WebView问题</a>
+      <a class="article-title" href="/2016/06/29/基于React下Android开发Hybrid访问WebView问题/">基于React下开发Hybrid访问WebView问题</a>
     </h1>
   
 
